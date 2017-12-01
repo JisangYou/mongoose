@@ -14,7 +14,7 @@ db.once('open', function(){
     console.log("Connected to mongod server");
 });
 
-mongoose.connect('mongodb://localhost/skillshare_db');
+mongoose.connect('mongodb://localhost/skillshare_db2');
 
 // DEFINE MODEL
 var Class = require('./models/class');
@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 
 // [CONFIGURE SERVER PORT]
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8079;
 
 // [CONFIGURE ROUTER]
 var router = require('./routes')(app, Class);
