@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 
 var tutorSchema = new Schema( // 
     {
+        
         name: String,
         follower : String,
         className : String
@@ -24,11 +25,11 @@ var tutorSchema = new Schema( //
         },{versionKey:false});
     
     
-     module.exports = mongoose.model('subScriber', subScriberSchema);
+     module.exports = mongoose.model('subscriber', subScriberSchema);
     //---------------------------------------Class내 subScriber db모델----------------------------------------
         
  var videoSchema = new Schema({        
-       
+
             duration: String,
             videoTitle : String,
             videoThumbnail : String,
@@ -73,6 +74,15 @@ var tutorSchema = new Schema( //
     //---------------------------------------Class내 related db모델----------------------------------------
     
 
+ var rediscussionSchema = new Schema({
+            name : String,
+            pictureUrl: String,
+            content: String,
+            time : String
+        },{versionKey:false});    
+
+    module.exports = mongoose.model('rediscussion', rediscussionSchema);      
+
  var discussionSchema = new Schema({        
             
             name : String,
@@ -80,7 +90,7 @@ var tutorSchema = new Schema( //
             content : String,
             time : String,
             like : String,
-            rediscussion : String
+            rediscussion : [rediscussionSchema]
             
         },{versionKey:false});
         
@@ -94,7 +104,7 @@ var classSchema = new Schema({
     totalDuration : String,//num
     feedback : String, //trim
     subscriberCount : String,//num
-    subScriber : [subScriberSchema],//trim userId 타고 name,recentTime, order, url, duration
+    subscriber : [subScriberSchema],//trim userId 타고 name,recentTime, order, url, duration
     video : [videoSchema], // videoId 타고 duration, videotitle, video Thumbnail, videourl, order
     project : [projectSchema],//trim projetId타고 썸네일
     review : [reviewSchema],//trim, reivewid타고 콘텐츠, 좋아요(싫어요), 리뷰어사진, 리뷰어이름,registraionId
