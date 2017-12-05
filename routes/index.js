@@ -20,32 +20,38 @@ module.exports = function(app, Class)
     //     })
     // });
 
-       // GET SINGLE class
-       app.get('/api/class/tutor/name/:name', function(req, res){
-        Class.findOne({name: req.params.name}, function(err, classes){ //id값으로 검색하는 로직
-            if(err) return res.status(500).json({error: err});
-            if(!classes) return res.status(404).json({error: 'Class not found'});
-            res.json(classes);
-        })
-    });
- 
-
-    // GET class BY title
-    app.get('/api/class/title/:title', function(req, res){
-        Class.find({title: req.params.title}, {_id: true, tutor: true, video: true},  function(err, classes){ // {}안에 있는 5개의 항목은 해당 타이틀을 검색했을때, 나오는 데이터
-            if(err) return res.status(500).json({error: err});
-            if(classes.length === 0) return res.status(404).json({error: 'Class not found'});
-            res.json(classes);
-        })
-    });
-
-    // app.get('/api/class/tutor/name/:name', function(req, res){
-    //     Class.find({name: req.params.name}, {_id: true, name: true},  function(err, classes){ // {}안에 있는 5개의 항목은 해당 타이틀을 검색했을때, 나오는 데이터
+    //    // GET SINGLE class
+    //    app.get('/api/class/tutor/name/:name', function(req, res){
+    //     Class.findOne({name: req.params.name}, function(err, classes){ //id값으로 검색하는 로직
     //         if(err) return res.status(500).json({error: err});
-    //         if(classes.length === 0) return res.status(404).json({error: 'Class not found'});
+    //         if(!classes) return res.status(404).json({error: 'Class not found'});
     //         res.json(classes);
     //     })
     // });
+ 
+
+    // GET class BY title
+    app.get('/api/class/title/:title/tutor/name/:name', function(req, res){
+        Class.find({'title': req.params.title,'tutor.name' : req.params.name}, 
+        {'title._id': true, 'title': true, 'video.videoThumbnail': true,'video._id':true,'tutor._id':true, 'tutor.name' :true},  
+        function(err, classes){ // {}안에 있는 5개의 항목은 해당 타이틀을 검색했을때, 나오는 데이터
+            if(err) 
+            return res.status(500).json({error: err});
+            if(classes.length === 0) 
+            return res.status(404).json({error: 'Class not found'});
+            res.json(classes);
+        })
+    });
+
+    app.get('/api/class/tutor/name/:name', function(req, res){
+        Class.find({'tutor.name' : req.params.name}, {_id: true, 'tutor.name': true},  function(err, classes){ // {}안에 있는 5개의 항목은 해당 타이틀을 검색했을때, 나오는 데이터
+            if(err) 
+            return res.status(500).json({error: err});
+            if(classes.length === 0) 
+            return res.status(404).json({error: 'Class not found'});
+            res.json(classes);
+        })
+    });
 
    
 
