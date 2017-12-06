@@ -2,7 +2,7 @@ module.exports = function(app, Class)
 
 {
     // GET ALL class
-    app.get('/api/class', function(req,res){
+    app.get('/class', function(req,res){
         Class.find(function(err, classes){
             if(err) return res.status(500).send({error: 'database failure'});
             res.json(classes);
@@ -31,20 +31,22 @@ module.exports = function(app, Class)
  
 
     // GET class BY title
-    app.get('/api/class/title/:title/tutor/name/:name', function(req, res){
-        Class.find({'title': req.params.title,'tutor.name' : req.params.name}, 
-        {'title._id': true, 'title': true, 'video.videoThumbnail': true,'video._id':true,'tutor._id':true, 'tutor.name' :true},  
-        function(err, classes){ // {}안에 있는 5개의 항목은 해당 타이틀을 검색했을때, 나오는 데이터
-            if(err) 
-            return res.status(500).json({error: err});
-            if(classes.length === 0) 
-            return res.status(404).json({error: 'Class not found'});
-            res.json(classes);
-        })
-    });
+    // app.get('/api/class/title/:title/tutor/name/:name', function(req, res){
+    //     Class.find({'title': req.params.title,'tutor.name' : req.params.name}, 
+    //     {'title._id': true, 'title': true, 'video.videoThumbnail': true,'video._id':true,'tutor._id':true, 'tutor.name' :true},  
+    //     function(err, classes){ // {}안에 있는 5개의 항목은 해당 타이틀을 검색했을때, 나오는 데이터
+    //         if(err) 
+    //         return res.status(500).json({error: err});
+    //         if(classes.length === 0) 
+    //         return res.status(404).json({error: 'Class not found'});
+    //         res.json(classes);
+    //     })
+    // });
 
-    app.get('/api/class/tutor/name/:name', function(req, res){
-        Class.find({'tutor.name' : req.params.name}, {_id: true, 'tutor.name': true},  function(err, classes){ // {}안에 있는 5개의 항목은 해당 타이틀을 검색했을때, 나오는 데이터
+    app.get('/class/type/:type', function(req, res){
+        Class.find({type: req.params.type}, 
+        {'type':true, 'title._id': true, 'title': true, 'video.videoThumbnail': true,'video._id':true,'tutor._id':true, 'tutor.name' :true},  
+        function(err, classes){ // {}안에 있는 5개의 항목은 해당 타이틀을 검색했을때, 나오는 데이터
             if(err) 
             return res.status(500).json({error: err});
             if(classes.length === 0) 
@@ -56,8 +58,9 @@ module.exports = function(app, Class)
    
 
     // CREATE class
-    app.post('/api/class', function(req, res){
+    app.post('/class', function(req, res){
         var mClass = new Class();
+        mClass.type = req.body.type;
         mClass.title = req.body.title;
         mClass.tutor = req.body.tutor;
         mClass.totalDuration = req.body.totalDuration;
@@ -88,7 +91,7 @@ module.exports = function(app, Class)
 
 
     // UPDATE THE title
-    app.put('/api/class/:title', function(req, res){
+    app.put('/class/:title', function(req, res){
         Class.update({ title: req.params.title }, { $set: req.body }, function(err, output){
             if(err) res.status(500).json({ error: 'database failure' });
             console.log(output);
@@ -99,7 +102,7 @@ module.exports = function(app, Class)
     });
 
     // DELETE class
-    app.delete('/api/class/:mClass_id', function(req, res){
+    app.delete('/class/:mClass_id', function(req, res){
         Class.remove({ _id: req.params.mClass_id }, function(err, output){
             if(err) return res.status(500).json({ error: "database failure" });
 

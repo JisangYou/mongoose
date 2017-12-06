@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
-
 var tutorSchema = new Schema( // 
     {
         
@@ -17,6 +16,7 @@ var tutorSchema = new Schema( //
 
  var subScriberSchema = new Schema({
         
+         
             name: String,
             recentTime : String,
             order : String,
@@ -98,7 +98,7 @@ var tutorSchema = new Schema( //
    //---------------------------------------Class내 related db모델---------------------------------------- 
 
 var classSchema = new Schema({
-    
+    type : String,
     title: String, //trim 필요
     tutor: [tutorSchema], //trim 필요, 하위에 이름, 팔로워, 클래스
     totalDuration : String,//num
