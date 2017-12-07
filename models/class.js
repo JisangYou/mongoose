@@ -2,10 +2,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
+
+
+
 var tutorSchema = new Schema( // 
     {
         
-        name: String,
+        name: String, // 이부분
         follower : String,
         className : String
     
@@ -32,7 +35,7 @@ var tutorSchema = new Schema( //
 
             duration: String,
             videoTitle : String,
-            videoThumbnail : String,
+            videoThumbnail : String, // 이부분
             videoUrl : String,
             order : String
          },{versionKey:false});
@@ -97,8 +100,20 @@ var tutorSchema = new Schema( //
     module.exports = mongoose.model('discussion', discussionSchema);
    //---------------------------------------Class내 related db모델---------------------------------------- 
 
-var classSchema = new Schema({
+ var homeSchema = new Schema({
     type : String,
+    title: String, //trim 필요
+    tutorName: String, //trim 필요, 하위에 이름, 팔로워, 클래스
+    duration : String,//num
+    pictureUrl : String
+    
+    }, {versionKey : false});
+
+    module.exports = mongoose.model('home', homeSchema);
+    // ---------------------------------Classㄴ
+
+var classSchema = new Schema({
+    home : [homeSchema],
     title: String, //trim 필요
     tutor: [tutorSchema], //trim 필요, 하위에 이름, 팔로워, 클래스
     totalDuration : String,//num
@@ -116,12 +131,6 @@ var classSchema = new Schema({
 
 module.exports = mongoose.model('class', classSchema);
 //---------------------------------------Class db모델---------------------------------------- 
-
-
-
-
-
-
 
 
 

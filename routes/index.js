@@ -9,26 +9,15 @@ module.exports = function(app, Class)
         })
     });
 
- 
+    app.get('/class/home', function(req,res){
+        Class.find(function(err, classes){
+            if(err) return res.status(500).send({error: 'database failure'});
+            res.json(classes);
+        })
+    });
 
-    // // GET SINGLE class
-    // app.get('/api/class/:mClass_id', function(req, res){
-    //     Class.findOne({_id: req.params.mClass_id}, function(err, classes){ //id값으로 검색하는 로직
-    //         if(err) return res.status(500).json({error: err});
-    //         if(!classes) return res.status(404).json({error: 'Class not found'});
-    //         res.json(classes);
-    //     })
-    // });
 
-    //    // GET SINGLE class
-    //    app.get('/api/class/tutor/name/:name', function(req, res){
-    //     Class.findOne({name: req.params.name}, function(err, classes){ //id값으로 검색하는 로직
-    //         if(err) return res.status(500).json({error: err});
-    //         if(!classes) return res.status(404).json({error: 'Class not found'});
-    //         res.json(classes);
-    //     })
-    // });
- 
+    
 
     // GET class BY title
     // app.get('/api/class/title/:title/tutor/name/:name', function(req, res){
@@ -55,12 +44,24 @@ module.exports = function(app, Class)
         })
     });
 
+    // app.get('/class/home', function(req, res){
+    //     Class.find({type: req.params.type}, 
+    //     {'type':true, 'title._id': true, 'title': true, 'video.videoThumbnail': true,'video._id':true,'tutor._id':true, 'tutor.name' :true},  
+    //     function(err, classes){ // {}안에 있는 5개의 항목은 해당 타이틀을 검색했을때, 나오는 데이터
+    //         if(err) 
+    //         return res.status(500).json({error: err});
+    //         if(classes.length === 0) 
+    //         return res.status(404).json({error: 'Class not found'});
+    //         res.json(classes);
+    //     })
+    // });
+
    
 
     // CREATE class
     app.post('/class', function(req, res){
         var mClass = new Class();
-        mClass.type = req.body.type;
+        mClass.home = req.body.home;
         mClass.title = req.body.title;
         mClass.tutor = req.body.tutor;
         mClass.totalDuration = req.body.totalDuration;
@@ -87,6 +88,8 @@ module.exports = function(app, Class)
 
         });
     });
+
+
 
 
 

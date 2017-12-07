@@ -18,6 +18,8 @@ mongoose.connect('mongodb://localhost/skillshare_db2');
 
 // DEFINE MODEL
 var Class = require('./models/class');
+// var Home = require('./models/home');
+
 
 // [CONFIGURE APP TO USE bodyParser]
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,6 +31,7 @@ var port = process.env.PORT || 8079;
 
 // [CONFIGURE ROUTER]
 var router = require('./routes')(app, Class);
+// var router2 = require('./routes')(app, Home);
 
 // [RUN SERVER]
 var server = app.listen(port, function(){
